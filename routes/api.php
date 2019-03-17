@@ -13,6 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+    // Route::patch('settings/profile', 'Settings\ProfileController@update');
+    // Route::patch('settings/password', 'Settings\PasswordController@update');
+});
+
+Route::middleware('guest:api')->namespace('Auth')->group(function () {
+    Route::post('login', 'LoginController@login')->name('login');
+    Route::post('register', 'RegisterController@register')->name('register');
+    /*
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'ResetPasswordController@reset');
+    Route::post('oauth/{driver}', 'OAuthController@redirectToProvider');
+    Route::get('oauth/{driver}/callback', 'OAuthController@handleProviderCallback')->name('oauth.callback');
+    */
 });
