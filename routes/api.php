@@ -16,7 +16,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::patch('settings/profile', 'Settings\ProfileController@update')->name('profile.update');
-    // Route::patch('settings/password', 'Settings\PasswordController@update')->name('password.update');
+    Route::patch('settings/password', 'Settings\PasswordController@update')->name('password.update');
 });
 
 Route::middleware('guest:api')->namespace('Auth')->group(function () {

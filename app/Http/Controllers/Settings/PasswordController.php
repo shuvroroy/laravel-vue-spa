@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
-use App\Http\Requests\Settings\ProfileUpdateFormRequest;
+use App\Http\Requests\Settings\PasswordUpdateFormRequest;
 
-class ProfileController extends Controller
+class PasswordController extends Controller
 {
-    public function update(ProfileUpdateFormRequest $request)
+    public function update(PasswordUpdateFormRequest $request)
     {
         $user = auth()->user();
 
-        $user->update($request->only('name', 'email'));
+        $user->update([
+            'password' => bcrypt($request->password)
+        ]);
 
         return (new UserResource($user))
             ->response()

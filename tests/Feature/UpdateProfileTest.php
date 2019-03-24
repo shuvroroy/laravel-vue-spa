@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ProfileTest extends TestCase
+class UpdateProfileTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -33,14 +33,14 @@ class ProfileTest extends TestCase
     }
 
     /** @test */
-    public function it_update_profile_info()
+    public function it_can_update_profile_info()
     {
         $this->actingAs($this->user)
             ->json('PATCH', route('profile.update'), [
                 'name' => $name = 'John Doe',
                 'email' => $email = 'john@example.com',
             ])
-            ->assertStatus(200)
+            ->assertStatus(202)
             ->assertJsonStructure([
                 'data' => [
                     'id',

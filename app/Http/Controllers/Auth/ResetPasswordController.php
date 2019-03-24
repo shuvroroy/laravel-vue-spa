@@ -22,7 +22,7 @@ class ResetPasswordController extends Controller
 
         return response()->json([
             'message' => 'Your password has been reset!'
-        ], 201);
+        ], 202);
     }
 
     protected function find($token, $email)

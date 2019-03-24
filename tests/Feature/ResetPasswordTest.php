@@ -73,7 +73,7 @@ class ResetPasswordTest extends TestCase
         ];
 
         $this->json('POST', route('password.reset'), $updateData)
-            ->assertStatus(201)
+            ->assertStatus(202)
             ->assertJson([
                 'message' => 'Your password has been reset!'
             ]);
