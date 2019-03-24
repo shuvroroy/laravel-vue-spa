@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\Auth\LoginFormRequest;
 
 class LoginController extends Controller
 {
-	public function login(LoginFormRequest $request)
+    public function login(LoginFormRequest $request)
     {
         if (!$token = auth()->attempt($request->only('email', 'password'))) {
             return response()->json([

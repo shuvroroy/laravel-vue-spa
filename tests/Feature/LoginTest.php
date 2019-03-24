@@ -3,27 +3,16 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class LoginTest extends TestCase
 {
-	use RefreshDatabase;
+    use RefreshDatabase;
 
-	protected $user;
-
-    public function setUp(): void
+    /** @test */
+    public function it_requires_email_and_password()
     {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-    }
-
-	/** @test */
-	function it_requires_email_and_password()
-	{
-		$this->json('POST', route('login'))
+        $this->json('POST', route('login'))
             ->assertStatus(422)
             ->assertJsonStructure([
                 'message',
@@ -32,17 +21,17 @@ class LoginTest extends TestCase
                     'password'
                 ]
             ]);
-	}
+    }
 
-	/** @test */
-	function it_returns_a_validation_error_with_invalid_email_and_password()
-	{
-		$data = [
-			'email' => $this->user->email,
-			'password' => 'invalid'
-		];
+    /** @test */
+    public function it_returns_a_validation_error_with_invalid_email_and_password()
+    {
+        $data = [
+            'email' => $this->user->email,
+            'password' => 'invalid'
+        ];
 
-		$this->json('POST', route('login'), $data)
+        $this->json('POST', route('login'), $data)
             ->assertStatus(422)
             ->assertJsonStructure([
                 'message',
@@ -50,42 +39,42 @@ class LoginTest extends TestCase
                     'email'
                 ]
             ]);
-	}
+    }
 
-	/** @test */
-	function it_returns_user_and_token_on_login()
-	{
-		$data = [
-			'email' => $this->user->email,
-			'password' => 'password'
-		];
+    /** @test */
+    public function it_returns_user_and_token_on_login()
+    {
+        $data = [
+            'email' => $this->user->email,
+            'password' => 'password'
+        ];
 
-		$this->json('POST', route('login'), $data)
+        $this->json('POST', route('login'), $data)
             ->assertStatus(200)
             ->assertJsonStructure([
-            	'data' => [
-            		'id',
-            		'name',
-            		'email'
-            	],
+                'data' => [
+                    'id',
+                    'name',
+                    'email'
+                ],
                 'meta' => [
                     'token',
                     'token_type',
                     'expires_in'
                 ]
             ]);
-	}
+    }
 
-	/** @test */
-	function it_requires_valid_token_to_logout()
-	{
-		$token = auth()->login($this->user);
+    /** @test */
+    public function it_requires_valid_token_to_logout()
+    {
+        $token = auth()->login($this->user);
 
-		$this->withHeaders(['Authorization' => "Bearer $token"])
-			->json('POST', route('logout'))
+        $this->withHeaders(['Authorization' => "Bearer $token"])
+            ->json('POST', route('logout'))
             ->assertStatus(200)
             ->assertJsonStructure([
-            	'message'
+                'message'
             ]);
-	}
+    }
 }
