@@ -9,20 +9,38 @@
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "format": "prettier --write 'resources/**/*.{css,js,vue}' 'nova-components/**/*.{css,js,vue}'"
-
     },
     "devDependencies": {
         "axios": "^0.18",
-        "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
-        "jquery": "^3.2",
+        "husky": "^2.2.0",
         "laravel-mix": "^4.0.7",
+        "laravel-mix-purgecss": "^4.1.0",
+        "lint-staged": "^8.1.6",
         "lodash": "^4.17.5",
-        "popper.js": "^1.12",
         "prettier": "1.16.4",
         "resolve-url-loader": "^2.3.1",
-        "sass": "^1.15.2",
-        "sass-loader": "^7.1.0",
-        "vue": "^2.5.17"
+        "tailwindcss": "^1.0.0-beta.4",
+        "vue": "^2.5.17",
+        "vue-router": "^3.0.2",
+        "vue-template-compiler": "^2.6.10",
+        "vuex": "^3.1.0"
+    },
+    "lint-staged": {
+        "linters": {
+            "resources/**/*.{css,js}": [
+                "prettier --write",
+                "git add"
+            ],
+            "*.php": [
+                "php ./vendor/bin/php-cs-fixer fix --config .php_cs",
+                "git add"
+            ]
+        }
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
     }
 }
