@@ -7,11 +7,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700">
     <link rel="stylesheet" href="/css/app.css">
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel-Vue-Spa') }}</title>
   </head>
   <body class="antialiased text-gray-900 h-screen bg-gray-200">
     <div id="app">
     	<router-view></router-view>
+    	<portal-target name="modals"></portal-target>
     </div>
     <script src="/js/app.js"></script>
   </body>

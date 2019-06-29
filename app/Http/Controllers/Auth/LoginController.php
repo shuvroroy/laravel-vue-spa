@@ -14,7 +14,7 @@ class LoginController extends Controller
             return response()->json([
                 "message" => "The given data was invalid.",
                 'errors' => [
-                    'email' => 'These credentials do not match our records.'
+                    'email' => ['These credentials do not match our records.']
                 ]
             ], 422);
         }
@@ -23,7 +23,7 @@ class LoginController extends Controller
             ->additional([
                 'meta' => [
                     'token' => $token,
-                    'token_type' => 'bearer',
+                    'token_type' => 'Bearer',
                     'expires_in' => auth()->factory()->getTTL() * 60
                 ]
             ]);

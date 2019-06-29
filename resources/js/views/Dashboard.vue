@@ -1,19 +1,29 @@
 <template>
   <div>
-    <nav-bar></nav-bar>
+    <nav-component :user="user"></nav-component>
   </div>
 </template>
 
 <script>
-  import NavBar from '../components/NavComponent'
+  import { auth } from './../middleware';
+  import { mapGetters, mapActions } from 'vuex';
+
   export default {
-    components: {
-      NavBar
+    middleware: [
+      auth
+    ],
+    computed: {
+      ...mapGetters({
+        user: 'auth/user'
+      })
     },
-    data() {
-      return {
-        open: false
-      }
+    created() {
+      this.fetchUser();
     },
-  }
+    methods: {
+      ...mapActions({
+        fetchUser: 'auth/fetchUser'
+      }),
+    }
+  };
 </script>

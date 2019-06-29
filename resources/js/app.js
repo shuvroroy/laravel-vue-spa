@@ -6,8 +6,19 @@
 
 require('./bootstrap');
 import Vue from 'vue';
+import PortalVue from 'portal-vue';
 import router from './router';
 import store from './store';
+import Cookies from 'js-cookie';
+window.Bus = new Vue();
+
+Vue.use(PortalVue);
+
+let accessToken = Cookies.get('token');
+
+if (accessToken) {
+  window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+}
 
 /**
  * The following block of code may be used to automatically register your

@@ -11,20 +11,22 @@
         "format": "prettier --write 'resources/**/*.{css,js,vue}' 'nova-components/**/*.{css,js,vue}'"
     },
     "devDependencies": {
-        "axios": "^0.18",
+        "axios": "^0.18.1",
         "cross-env": "^5.1",
-        "husky": "^2.2.0",
-        "laravel-mix": "^4.0.7",
+        "husky": "^2.4.1",
+        "js-cookie": "^2.2.0",
+        "laravel-mix": "^4.0.16",
         "laravel-mix-purgecss": "^4.1.0",
-        "lint-staged": "^8.1.6",
+        "lint-staged": "^8.2.1",
         "lodash": "^4.17.5",
+        "portal-vue": "^2.1.5",
         "prettier": "1.16.4",
         "resolve-url-loader": "^2.3.1",
-        "tailwindcss": "^1.0.0-beta.4",
+        "tailwindcss": "^1.0.4",
         "vue": "^2.5.17",
-        "vue-router": "^3.0.2",
+        "vue-router": "^3.0.6",
         "vue-template-compiler": "^2.6.10",
-        "vuex": "^3.1.0"
+        "vuex": "^3.1.1"
     },
     "lint-staged": {
         "linters": {

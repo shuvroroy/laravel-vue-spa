@@ -1,12 +1,8 @@
 <template>
-  <div>
-    <nav-component></nav-component>
-    <alert-component></alert-component>
+  <div class="">
   </div>
 </template>
 
 <script>
-export default {
-  //
-};
+export default {};
 </script>

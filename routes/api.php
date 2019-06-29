@@ -13,6 +13,10 @@
 */
 
 Route::middleware('auth:api')->group(function () {
+    Route::get('/user', function () {
+        return request()->user();
+    });
+
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::patch('settings/profile', 'Settings\ProfileController@update')->name('profile.update');
