@@ -27,6 +27,9 @@ Route::middleware('guest:api')->namespace('Auth')->group(function () {
     Route::post('login', 'LoginController@login')->name('login');
     Route::post('register', 'RegisterController@register')->name('register');
 
+    Route::post('email/verify/{user}', 'EmailVerificationController@verify')->name('verification.verify');
+    Route::post('email/resend', 'EmailVerificationController@resend')->name('verification.resend');
+
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::post('password/reset', 'ResetPasswordController@reset')->name('password.reset');
 

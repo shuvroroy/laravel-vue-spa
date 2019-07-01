@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\PasswordReset;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 use App\Http\Requests\Auth\ResetPasswordFormRequest;
 
 class ResetPasswordController extends Controller
@@ -21,7 +22,7 @@ class ResetPasswordController extends Controller
         $passwordReset->delete();
 
         return response()->json([
-            'message' => 'Your password has been reset!'
+            'message' => trans('passwords.reset')
         ], 202);
     }
 
@@ -33,23 +34,17 @@ class ResetPasswordController extends Controller
         ])->first();
 
         if (!$passwordReset) {
-            return response()->json([
-                'message' => 'The given data was invalid.',
-                'errors' => [
-                    'email' => 'This password reset token is invalid.'
-                ]
-            ], 422);
+            throw ValidationException::withMessages([
+                'email' => [trans('passwords.token')],
+            ]);
         }
 
         if (Carbon::parse($passwordReset->updated_at)->addMinutes(720)->isPast()) {
             $passwordReset->delete();
 
-            return response()->json([
-                'message' => 'The given data was invalid.',
-                'errors' => [
-                    'email' => 'This password reset token is invalid.'
-                ]
-            ], 422);
+            throw ValidationException::withMessages([
+                'email' => [trans('passwords.token')],
+            ]);
         }
 
         return $passwordReset;

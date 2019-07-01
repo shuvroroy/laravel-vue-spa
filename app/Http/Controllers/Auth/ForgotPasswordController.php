@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use App\Models\PasswordReset;
 use App\Http\Controllers\Controller;
-use App\Notifications\Auth\PasswordResetRequest;
 use App\Http\Requests\Auth\ForgotPasswordFormRequest;
+use App\Notifications\Auth\PasswordResetNotification;
 
 class ForgotPasswordController extends Controller
 {
@@ -26,12 +26,12 @@ class ForgotPasswordController extends Controller
 
         if ($passwordReset) {
             $user->notify(
-                new PasswordResetRequest($passwordReset->token)
+                new PasswordResetNotification($passwordReset->token)
             );
         }
 
         return response()->json([
-            'message' => 'We have e-mailed your password reset link!'
+            'message' => trans('passwords.sent')
         ], 201);
     }
 }

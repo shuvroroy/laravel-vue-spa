@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\PasswordReset;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\Auth\PasswordResetRequest;
+use App\Notifications\Auth\PasswordResetNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ForgotPasswordTest extends TestCase
@@ -38,6 +38,8 @@ class ForgotPasswordTest extends TestCase
             'email' => $this->user->email
         ];
 
+        Notification::assertNothingSent();
+
         $this->json('POST', route('password.email'), $data)
             ->assertStatus(201)
             ->assertJsonStructure([
@@ -48,7 +50,7 @@ class ForgotPasswordTest extends TestCase
 
         Notification::assertSentTo(
             [$this->user],
-            PasswordResetRequest::class,
+            PasswordResetNotification::class,
             function ($notification, $channels) use ($token) {
                 return $notification->token === $token;
             }

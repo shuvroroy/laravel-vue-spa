@@ -2,8 +2,9 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
@@ -42,7 +43,24 @@ class LoginTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_user_and_token_on_login()
+    public function it_returns_message_if_email_isnot_verified_on_login()
+    {
+        $user = factory(User::class)->create();
+
+        $data = [
+            'email' => $user->email,
+            'password' => 'password'
+        ];
+
+        $this->json('POST', route('login'), $data)
+            ->assertStatus(403)
+            ->assertJsonStructure([
+                'message'
+            ]);
+    }
+
+    /** @test */
+    public function it_returns_user_and_token_if_email_is_verified_on_login()
     {
         $data = [
             'email' => $this->user->email,

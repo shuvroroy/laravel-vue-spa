@@ -57,6 +57,8 @@ class ResetPasswordTest extends TestCase
             'email' => $this->user->email
         ];
 
+        Notification::assertNothingSent();
+
         $this->json('POST', route('password.email'), $data)
             ->assertStatus(201)
             ->assertJsonStructure([

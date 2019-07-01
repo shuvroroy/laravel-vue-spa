@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
 use App\Http\Requests\Auth\RegisterFormRequest;
+use App\Notifications\Auth\EmailVerificationNotification;
 
 class RegisterController extends Controller
 {
@@ -13,15 +13,12 @@ class RegisterController extends Controller
     {
         $user = User::create($request->only('name', 'email', 'password'));
 
-        $token = auth()->login($user);
+        $user->notify(
+            new EmailVerificationNotification($user)
+        );
 
-        return (new UserResource($user))
-            ->additional([
-                'meta' => [
-                    'token' => $token,
-                    'token_type' => 'bearer',
-                    'expires_in' => auth()->factory()->getTTL() * 60
-                ]
-            ]);
+        return response()->json([
+            'message' => trans('verification.sent')
+        ], 201);
     }
 }

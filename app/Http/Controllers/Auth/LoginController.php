@@ -5,18 +5,22 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\Auth\LoginFormRequest;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
     public function login(LoginFormRequest $request)
     {
         if (!$token = auth()->attempt($request->only('email', 'password'))) {
+            throw ValidationException::withMessages([
+                'email' => [trans('auth.failed')],
+            ]);
+        }
+
+        if (!$request->user()->hasVerifiedEmail()) {
             return response()->json([
-                "message" => "The given data was invalid.",
-                'errors' => [
-                    'email' => ['These credentials do not match our records.']
-                ]
-            ], 422);
+                'message' => trans('verification.unverified')
+            ], 403);
         }
 
         return (new UserResource($request->user()))
@@ -34,7 +38,7 @@ class LoginController extends Controller
         auth()->logout();
 
         return response()->json([
-            'message' => 'Successfully logged out.'
+            'message' => trans('auth.logout')
         ], 200);
     }
 }

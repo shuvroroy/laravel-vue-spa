@@ -3,7 +3,10 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\User;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Notifications\Auth\EmailVerificationNotification;
 
 class RegisterTest extends TestCase
 {
@@ -60,8 +63,10 @@ class RegisterTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_user_and_token_on_registration()
+    public function it_returns_a_verification_email_on_registration()
     {
+        Notification::fake();
+
         $data = [
             'name' => 'John Doe',
             'email' => $email = 'john@example.com',
@@ -69,23 +74,26 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'password'
         ];
 
+        Notification::assertNothingSent();
+
         $this->json('POST', route('register'), $data)
             ->assertStatus(201)
             ->assertJsonStructure([
-                'data' => [
-                    'id',
-                    'name',
-                    'email'
-                ],
-                'meta' => [
-                    'token',
-                    'token_type',
-                    'expires_in'
-                ]
+                'message'
             ]);
 
+        $user = User::where('email', $email)->first();
+
         $this->assertDatabaseHas('users', [
-            'email' => $email
+            'email' => $user->email
         ]);
+
+        Notification::assertSentTo(
+            [$user],
+            EmailVerificationNotification::class,
+            function ($notification, $channels) use ($user) {
+                return $notification->user->is($user);
+            }
+        );
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PasswordResetRequest extends Notification
+class PasswordResetNotification extends Notification
 {
     use Queueable;
 

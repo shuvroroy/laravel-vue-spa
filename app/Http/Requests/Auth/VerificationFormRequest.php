@@ -4,7 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ForgotPasswordFormRequest extends FormRequest
+class VerificationFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +25,6 @@ class ForgotPasswordFormRequest extends FormRequest
     {
         return [
             'email' => ['required', 'string', 'max:255', 'email', 'exists:users,email']
-        ];
-    }
-
-    /**
-     * Get custom messages for validator errors.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'email.exists' => 'We can\'t find a user with that e-mail address.'
         ];
     }
 }
