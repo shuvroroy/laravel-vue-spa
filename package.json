@@ -11,7 +11,7 @@
         "format": "prettier --write 'resources/**/*.{css,js,vue}' 'nova-components/**/*.{css,js,vue}'"
     },
     "devDependencies": {
-        "axios": "^0.18.1",
+        "axios": "^0.21.1",
         "cross-env": "^5.1",
         "husky": "^2.4.1",
         "js-cookie": "^2.2.0",
