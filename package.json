@@ -18,7 +18,7 @@
         "laravel-mix": "^4.0.16",
         "laravel-mix-purgecss": "^4.1.0",
         "lint-staged": "^8.2.1",
-        "lodash": "^4.17.5",
+        "lodash": "^4.17.21",
         "portal-vue": "^2.1.5",
         "prettier": "1.16.4",
         "resolve-url-loader": "^2.3.1",
